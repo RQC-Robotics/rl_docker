@@ -8,6 +8,7 @@ ENV NVIDIA_DRIVER_CAPABILITIES compute,utility,display,graphics,video
 RUN apt-get update && apt-get install -y \
  git \
  gcc \
+ vim \
  mc \
  xvfb \
  xserver-xorg-core \
@@ -34,7 +35,7 @@ RUN wget --quiet https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86
  && /bin/bash ~/miniconda.sh -b -p /opt/conda\
  && rm -f Miniconda3-latest-Linux-x86_64.sh
 
-#Put conda in path so we can use conda activate
+# Put conda in path so we can use conda activate
 ENV PATH=$CONDA_DIR/bin:$PATH
 
 # Create the environment:
@@ -76,11 +77,11 @@ RUN wget --no-check-certificate https://sourceforge.net/projects/virtualgl/files
 RUN dpkg -i virtualgl*.deb
 RUN rm virtualgl*.deb
 
-#Install Attention-driven Robotic Manipulation (ARM)
+# Install Attention-driven Robotic Manipulation (ARM)
 RUN git clone https://github.com/stepjam/ARM.git
 RUN pip install -r ./ARM/requirements.txt
 
-#Install GPU monitoring (nvitop command)
+# Install GPU monitoring (nvitop command)
 RUN pip3 install --upgrade nvitop
 RUN pip3 install git+https://github.com/XuehaiPan/nvitop.git#egg=nvitop
 
@@ -94,7 +95,7 @@ RUN git clone https://github.com/RQC-Robotics/ur5-env.git
 RUN git --git-dir=./ur5-env/.git --work-tree=./ur5-env/ checkout 1b8b8e62328e75063eefc6a6ed1708e4c5268977
 RUN pip install ./ur5-env
 
-# Coping the files
+# Copying the files
 COPY *.py ./
 COPY *.sh ./
 COPY ./rqc_c2farm_files/launch.py                                               ./ARM/
@@ -104,7 +105,7 @@ COPY ./rqc_c2farm_files/conf/                                                   
 
 RUN mkdir -p ./demos
 
-#ENTRYPOINT ["/bin/bash"]
+# ENTRYPOINT ["/bin/bash"]
 CMD ["/bin/bash"] 
 
 
