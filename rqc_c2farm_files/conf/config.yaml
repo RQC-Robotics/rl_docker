@@ -1,0 +1,37 @@
+rlbench:
+    task: take_lid_off_saucepan
+    demos: 10
+    demo_path: /my/demo/path
+    episode_length: 10
+    cameras: [front]
+    camera_resolution: [120, 128]
+    scene_bounds: [-0.60, -0.18, -0.05, -0.25, 0.18, 0.5]
+
+replay:
+    batch_size: 128
+    timesteps: 1
+    prioritisation: True
+    use_disk: False
+    path: '/tmp/arm/replay'  # Only used when use_disk is True.
+
+framework:
+    log_freq: 10
+    save_freq: 10
+    train_envs: 1
+    eval_envs: 0
+    replay_ratio: 128
+    transitions_before_train: 50
+    tensorboard_logging: True
+    csv_logging: False
+    training_iterations: 40000
+    gpu: 0
+    env_gpu: 0
+    logdir: './logdir'
+    seeds: 1
+
+defaults:
+    - method: C2FARM
+
+hydra:
+    run:
+        dir: ${framework.logdir}/${rlbench.task}/${method.name}
